@@ -1,11 +1,11 @@
 import Icible from "./Icible";
 import range from "../functions/range";
 
-
 class Cible301 implements Icible{
-    mapZone:object;
+    mapZone:{ [key: string]: any } ;
     constructor(){
-        for (let number of range(1,21))
+        let number:number;
+        for (number of range(1,21))
             this.mapZone[number]=(pos:number)=>this.getAplly(number,pos);
     }
     getAplly(value:number,pos:number){

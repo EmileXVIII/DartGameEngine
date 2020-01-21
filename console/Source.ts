@@ -1,7 +1,7 @@
 class Source{
     input:NodeJS.ReadStream;
     output:NodeJS.WriteStream;
-    readline;
+    readline:any;
     constructor(input:NodeJS.ReadStream=process.stdin,output:NodeJS.WriteStream=process.stdout){
         this.input = input;
         this.output = output;
@@ -9,8 +9,5 @@ class Source{
             input: this.input,
             output: this.output
           })
-    }
-    toto(){
-        this.readline.question("toto",(name)=>name)
     }
 }

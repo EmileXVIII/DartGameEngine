@@ -18,23 +18,20 @@ class Game301 extends Game implements Igame{
         async ()=>{
             while (this.status=="started"){
                 let check=true;
-                await source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone ,posFromCenter)=>{
+                await source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
                     try{
                         <number><unknown>zone;
                         <number><unknown>posFromCenter;
                         check=true;
                     }
                     catch{
-                        console.log("you try to imput a string non castable to ");
+                        console.log("you try to imput a string non castable to number ");
                         check=false;
                     }
                     if(check) this.handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
                 })
             }
         }
-    }
-    handleShot2(zone,posFromCenter){
-
     }
     handleShot(zone:number,posFromCenter:number) {return this.status==="started"
         ? (()=>{

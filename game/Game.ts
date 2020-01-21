@@ -1,13 +1,15 @@
+import Player from "../player/Player";
+
 abstract class Game {
     id: number;
     mode: string;
     name: string;
     currentPlayerId: string;
     status: string;
-    createdAt: string;
-    nbPlayers: number;
-    mapPlayer : object;
-    mapPlayerScore : object;
+    createdAt: string ;
+    nbPlayers:  number;
+    mapPlayer : { [key: string]: Player };
+    mapPlayerScore : { [key: string]: number };
     hasNotPlayListIds : Array<string>;
     constructor(mode: string, name: string) {
         this.name=name;

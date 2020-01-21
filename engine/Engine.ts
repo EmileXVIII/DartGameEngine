@@ -2,7 +2,7 @@ import Game from "../game/Game";
 
 class Engine{
     nbGames:number;
-    mapGames:object;
+    mapGames:{ [key: string]: Game } ;
     idsBDD:Array<number>
     constructor(){
         this.nbGames=0;
