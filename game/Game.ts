@@ -18,6 +18,7 @@ abstract class Game {
         this.nbPlayers=0;
         this.mapPlayer={};
         this.mapPlayerScore={};
+        this.runGame.bind(this);
     }
     async runGame(callbackWithReturnZoneAndPosFromCenterAsPromise, handleShot){
         if(!(this.status==="started")) this.init();
@@ -34,13 +35,18 @@ abstract class Game {
                 console.log("imput is not castable to number ");
                 check=false;
             }
-            if(check) handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
+            if(check) handleShot(<number><unknown>zone,<number><unknown>posFromCenter);
         }
     }
     hasStarted(){
         if (this.status='started')
             return true
         return false;
+    }
+    doIfStarted(callback,callbackName:string){
+        return this.hasStarted()
+            ?callback()
+            :this.warnNotAllowed(callbackName)
     }
     addPlayer(player: Player){
         if(this.status='draft'){
