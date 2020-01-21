@@ -14,28 +14,7 @@ class Game301 extends Game implements Igame{
         this.currentShotNumber=0;
         this.runConsole.bind(this);
     }
-    runConsole(){
-        if(!(this.status==="started")) this.init();
-        let source=new Source();
-        (async () => {
-            while (this.status=="started"){
-                let check=true;
-                await source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-                    try{
-                        <number><unknown>zone;
-                        <number><unknown>posFromCenter;
-                        check=true;
-                    }
-                    catch{
-                        console.log("you try to imput a string non castable to number ");
-                        check=false;
-                    }
-                    if(check) this.handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
-                    return true;
-                })
-            }
-        }).call(this);
-    }
+    runGame(callbackWithReturnZoneAndPosFromCenterAsPromise){return super.runGame(callbackWithReturnZoneAndPosFromCenterAsPromise,this.handleShot)}
     handleShot(zone:number,posFromCenter:number) {return this.status==="started"
         ? (()=>{
             this.currentShotNumber++;

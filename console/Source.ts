@@ -1,4 +1,6 @@
 class Source{
+
+    /*
     input:NodeJS.ReadStream;
     output:NodeJS.WriteStream;
     readline:any;
@@ -10,5 +12,6 @@ class Source{
             output: this.output
           })
     }
+    */
 }
 export default Source;

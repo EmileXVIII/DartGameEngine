@@ -19,6 +19,24 @@ abstract class Game {
         this.mapPlayer={};
         this.mapPlayerScore={};
     }
+    async runGame(callbackWithReturnZoneAndPosFromCenterAsPromise, handleShot){
+        if(!(this.status==="started")) this.init();
+        while (this.status=="started"){
+            let check=true;
+            let zone,posFromCenter;
+            [zone,posFromCenter]= await callbackWithReturnZoneAndPosFromCenterAsPromise().then(res=>[res.zone,res.posFromCenter]).catch((err)=>{console.error(err); return [null,null]})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
+            try{
+                <number><unknown>zone;
+                <number><unknown>posFromCenter;
+            check=true;
+            }
+            catch{
+                console.log("imput is not castable to number ");
+                check=false;
+            }
+            if(check) handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
+        }
+    }
     hasStarted(){
         if (this.status='started')
             return true
