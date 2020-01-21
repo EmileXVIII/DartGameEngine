@@ -5,6 +5,7 @@ class Cible301 implements Icible{
     mapZone:{ [key: string]: any } ;
     constructor(){
         let number:number;
+        this.mapZone={};
         for (number of range(1,21))
             this.mapZone[number]=(pos:number)=>this.getAplly(number,pos);
     }

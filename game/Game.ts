@@ -17,6 +17,7 @@ abstract class Game {
         this.status='draft';
         this.nbPlayers=0;
         this.mapPlayer={};
+        this.mapPlayerScore={};
     }
     hasStarted(){
         if (this.status='started')

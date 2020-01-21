@@ -4,7 +4,7 @@ import Player from "./player/Player";
 
 //let Engine = require("./engine/Engine.ts");
 //let Game301 = require("./gamemodes/301/Game301");
-
+process.env.TS_NODE_PROJECT="./tsconfig.json";
 function main(){
     let engine= new Engine();
     let aaa= new Player("aaa","aaa@dartgame.fr");

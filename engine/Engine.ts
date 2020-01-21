@@ -5,6 +5,7 @@ class Engine{
     mapGames:{ [key: string]: Game } ;
     idsBDD:Array<number>
     constructor(){
+        this.idsBDD=[];
         this.nbGames=0;
         this.mapGames= {};
     }

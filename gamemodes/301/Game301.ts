@@ -1,6 +1,7 @@
 import Game from "../../game/Game";
 import Igame from "../../game/Igame";
 import Cible301 from "../../cibles/Cible301";
+import Source from "../../console/Source";
 
 class Game301 extends Game implements Igame{
     cible:Cible301;
@@ -11,11 +12,12 @@ class Game301 extends Game implements Igame{
         this.cible=new Cible301();
         this.maxShotNumber=3;
         this.currentShotNumber=0;
+        this.runConsole.bind(this);
     }
     runConsole(){
-        if(!(this.status==="started"))this.init
+        if(!(this.status==="started")) this.init();
         let source=new Source();
-        async ()=>{
+        (async () => {
             while (this.status=="started"){
                 let check=true;
                 await source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
@@ -29,9 +31,10 @@ class Game301 extends Game implements Igame{
                         check=false;
                     }
                     if(check) this.handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
+                    return true;
                 })
             }
-        }
+        }).call(this);
     }
     handleShot(zone:number,posFromCenter:number) {return this.status==="started"
         ? (()=>{
