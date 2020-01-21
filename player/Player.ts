@@ -12,3 +12,4 @@ class Player {
         this.gameLost=0;
     }
 }
+export default Player;

@@ -14,4 +14,4 @@ class Engine{
         if(!this.idsBDD[game.id-1]) this.idsBDD.push(null);
     }
 }
-export default Engine;
+export default Engine; //module.exports = Engine;

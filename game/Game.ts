@@ -29,6 +29,9 @@ abstract class Game {
         else
             console.warn(`You can't add a player on a ${this.status} game`)
     }
+    addPlayers(players: Array<Player>){
+        for (let player of players) this.addPlayer(player)
+    }
     deskWinner(playerId:string){return this.status==="started"
         ? (()=>{
             console.log(`${this.mapPlayer[playerId].name} is the Winner`);

@@ -1,12 +1,12 @@
-import Icible from "../../Icible";
-import range from "../../range";
+import Icible from "./Icible";
+import range from "../functions/range";
 
 
 class Cible301 implements Icible{
     mapZone:object;
     constructor(){
-        for (let number in range(1,21))
-            this.mapZone[number]=(pos:number)=>this.getAplly(<number><unknown> number,pos);
+        for (let number of range(1,21))
+            this.mapZone[number]=(pos:number)=>this.getAplly(number,pos);
     }
     getAplly(value:number,pos:number){
         switch (pos) {

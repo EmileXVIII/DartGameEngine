@@ -13,6 +13,7 @@ interface Igame{
     hasStarted();
     deskWinner(winnerId:string);
     addPlayer(player:Player);
+    addPlayers(players:Array<Player>);
     getCurrentPlayer();
     nextPlayer();
 }

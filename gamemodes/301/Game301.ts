@@ -12,6 +12,30 @@ class Game301 extends Game implements Igame{
         this.maxShotNumber=3;
         this.currentShotNumber=0;
     }
+    runConsole(){
+        if(!(this.status==="started"))this.init
+        let source=new Source();
+        async ()=>{
+            while (this.status=="started"){
+                let check=true;
+                await source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone ,posFromCenter)=>{
+                    try{
+                        <number><unknown>zone;
+                        <number><unknown>posFromCenter;
+                        check=true;
+                    }
+                    catch{
+                        console.log("you try to imput a string non castable to ");
+                        check=false;
+                    }
+                    if(check) this.handleShot(<number><unknown>zone,<number><unknown>posFromCenter)
+                })
+            }
+        }
+    }
+    handleShot2(zone,posFromCenter){
+
+    }
     handleShot(zone:number,posFromCenter:number) {return this.status==="started"
         ? (()=>{
             this.currentShotNumber++;
@@ -40,4 +64,4 @@ class Game301 extends Game implements Igame{
         this.status='started';
     }
 }
-export default Game301;
+export default Game301; //module.exports = Game301;
