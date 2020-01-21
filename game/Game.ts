@@ -5,6 +5,7 @@ abstract class Game {
     mode: string;
     name: string;
     currentPlayerId: string;
+    currentShotNumber: number;
     status: string;
     createdAt: string ;
     nbPlayers:  number;
@@ -13,6 +14,7 @@ abstract class Game {
     hasNotPlayListIds : Array<string>;
     constructor(mode: string, name: string) {
         this.name=name;
+        this.currentShotNumber=0;
         this.mode=mode;
         this.status='draft';
         this.nbPlayers=0;
@@ -22,10 +24,12 @@ abstract class Game {
     }
     async runGame(callbackWithReturnZoneAndPosFromCenterAsPromise, handleShot){
         if(!(this.status==="started")) this.init();
+        this.logTurn();
         while (this.status=="started"){
             let check=true;
             let zone,posFromCenter;
             [zone,posFromCenter]= await callbackWithReturnZoneAndPosFromCenterAsPromise().then(res=>[res.zone,res.posFromCenter]).catch((err)=>{console.error(err); return [null,null]})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
+            console.log("zone",zone,"pos",posFromCenter);
             try{
                 <number><unknown>zone;
                 <number><unknown>posFromCenter;
@@ -44,6 +48,7 @@ abstract class Game {
         return false;
     }
     doIfStarted(callback,callbackName:string){
+        console.log("doIfStarted",!!this);
         return this.hasStarted()
             ?callback()
             :this.warnNotAllowed(callbackName)
@@ -59,13 +64,13 @@ abstract class Game {
     addPlayers(players: Array<Player>){
         for (let player of players) this.addPlayer(player)
     }
-    deskWinner(playerId:string){return this.status==="started"
-        ? (()=>{
+    deskWinner(playerId:string){return this.doIfStarted(
+         (()=>{
             console.log(`${this.mapPlayer[playerId].name} is the Winner`);
             this.status='ended' 
             }
-        )()
-        : this.warnNotAllowed("deskWinner");
+        ).bind(this),
+        "deskWinner");
     }
     getCurrentPlayer(){
         return this.mapPlayer[this.currentPlayerId]
@@ -76,23 +81,30 @@ abstract class Game {
     warnNotAllowed(operation:string){
         console.log(`${this.status} doesn't allow "${operation}"`)
     }
-    nextPlayer(){return this.status==="started"
-        ? (()=>{
+    nextPlayer(){return this.doIfStarted(
+        (()=>{
                 if (this.hasNotPlayListIds.length==0) this.initHasNotPlayListIds()
                 this.currentPlayerId=this.hasNotPlayListIds.pop()
             }
-        )()
-        : this.warnNotAllowed("nextPlayer");
+        ).bind(this),
+        "nextPlayer");
     }
     initHasNotPlayListIds(){
         this.hasNotPlayListIds = Object.keys(this.mapPlayer).slice(0)
     }
+    logTurn(){
+        console.log(`${this.mapPlayer[this.currentPlayerId].name} will now play it's ${this.currentShotNumber+1} shot`)
+    }
+    initScore(value:number){
+        for (let playerId of Object.keys(this.mapPlayer)){
+            this.mapPlayerScore[playerId]=value;
+        }
+    }
     init(){
         this.initHasNotPlayListIds();
-        for (let playerId in Object.keys(this.mapPlayer)){
-            this.mapPlayerScore[playerId]=0;
-        }
+        this.initScore(0);
         this.status='started';
+        this.nextPlayer();
     }
 }
 export default Game;
