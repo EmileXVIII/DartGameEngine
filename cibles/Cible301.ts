@@ -7,7 +7,7 @@ class Cible301 implements Icible{
         let number:number;
         this.mapZone={};
         for (number of range(1,21))
-            this.mapZone[number]=(pos:number)=>this.getAplly(number,pos);
+            this.mapZone[number]=((pos:number)=>this.getAplly(number,pos)).bind(this);
         for (number of (range(1,21).concat(range(1,21))))
             console.log("crea",number,this.mapZone[number](3));
     }

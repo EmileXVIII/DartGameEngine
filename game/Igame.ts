@@ -4,7 +4,7 @@ interface Igame{
     id: number;
     mode: string;
     name: string;
-    currentPlayerId: string;
+    currentPlayerId: number;
     status: string;
     createdAt: string;
     mapPlayerScore : object;
@@ -13,7 +13,7 @@ interface Igame{
     //enginePayload = {}; // Données facultatives de l'engine, principalement pour le cricket 
     handleShot(value:number,pos:number):void;
     hasStarted():boolean;
-    deskWinner(winnerId:string):void;
+    deskWinner(winnerId:number):void;
     addPlayer(player:Player):void;
     addPlayers(players:Array<Player>):void;
     getCurrentPlayer():Player;

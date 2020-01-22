@@ -1,5 +1,5 @@
 interface Icible {
     mapZone:object;
-    getAplly(value:number,pos:number):number;
+    getAplly;
 }
 export default Icible;

@@ -4,14 +4,14 @@ abstract class Game {
     id: number;
     mode: string;
     name: string;
-    currentPlayerId: string;
+    currentPlayerId: number;
     currentShotNumber: number;
     status: string;
     createdAt: string ;
     nbPlayers:  number;
     mapPlayer : { [key: string]: Player };
     mapPlayerScore : { [key: string]: number };
-    hasNotPlayListIds : Array<string>;
+    hasNotPlayListIds : Array<number>;
     constructor(mode: string, name: string) {
         this.name=name;
         this.currentShotNumber=0;
@@ -64,7 +64,7 @@ abstract class Game {
     addPlayers(players: Array<Player>){
         for (let player of players) this.addPlayer(player)
     }
-    deskWinner(playerId:string){return this.doIfStarted(
+    deskWinner(playerId:number){return this.doIfStarted(
          (()=>{
             console.log(`${this.mapPlayer[playerId].name} is the Winner`);
             this.status='ended' 
@@ -90,7 +90,7 @@ abstract class Game {
         "nextPlayer");
     }
     initHasNotPlayListIds(){
-        this.hasNotPlayListIds = Object.keys(this.mapPlayer).slice(0)
+        this.hasNotPlayListIds = <Array<number>><unknown> Object.keys(this.mapPlayer).slice(0)
     }
     logTurn(){
         console.log(`${this.mapPlayer[this.currentPlayerId].name} will now play it's ${this.currentShotNumber+1} shot`)

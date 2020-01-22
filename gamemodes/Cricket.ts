@@ -1,21 +1,13 @@
-import Game from "../../game/Game";
-import Igame from "../../game/Igame";
-import Cible301 from "../../cibles/Cible301";
-import range from "../../functions/range";
-undefined
-class Game301 extends Game implements Igame{
-    cible:Cible301;
+import Game from "../game/Game";
+import Igame from "../game/Igame";
+import range from "../functions/range";
+
+class Cricket extends Game implements Igame{
     maxShotNumber:number;
-    currentShotNumber:number;
-    constructor(name: string){
-        super("301",name);
-        this.cible=new Cible301();
-        for(let i of range(1,21))
-            console.log("cible",i,this.cible.mapZone[i](3))
+    constructor(name:string){
+        super("cricket",name);
         this.maxShotNumber=3;
-        this.doIfStarted.bind(this);
-        this.handleShot.bind(this);
-        this.runGame.bind(this);
+
     }
     runGame(callbackWithReturnZoneAndPosFromCenterAsPromise){
         console.log("runGame",!!this);
@@ -35,7 +27,7 @@ class Game301 extends Game implements Igame{
                 for(let i of range(1,21))
                     console.log("points",i,this.cible.mapZone[i](3),value)
                 if (this.mapPlayerScore[this.currentPlayerId]>value)
-                    this.mapPlayerScore[this.currentPlayerId]-=value;
+                    this.mapPlayerScore[this.currentPlayerId]+=value;
                 this.scoreConsoleLog();
                 if (this.mapPlayerScore[this.currentPlayerId]!==0 && this.currentShotNumber>this.maxShotNumber){
                     this.currentShotNumber=0;
@@ -49,9 +41,5 @@ class Game301 extends Game implements Igame{
             "handleShot"
         )
     }
-    init(){
-        super.init();
-        this.initScore(301);
-    }
 }
-export default Game301; //module.exports = Game301;
+export default Cricket;
