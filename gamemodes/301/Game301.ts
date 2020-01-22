@@ -1,27 +1,34 @@
 import Game from "../../game/Game";
 import Igame from "../../game/Igame";
 import Cible301 from "../../cibles/Cible301";
-import range from "../../functions/range";
-undefined
-class Game301 extends Game implements Igame{
-    cible:Cible301;
-    maxShotNumber:number;
-    currentShotNumber:number;
+import range from "../../utils/functions/range";
+import MapPlayer from "../../player/MapPlayer";
+import DoIfStartedExtention from "../../utils/classes/DoIfStarted";
+class Game301 extends DoIfStartedExtention implements Igame{
+    private cible:Cible301;
+    private createdAt: string ;
+    private currentShotNumber:number;
+    public mapPlayer : MapPlayer;
+    private mapPlayerScore : { [key: string]: number };
+    private maxShotNumber:number;
+    private mode: string;
+    private name: string;
     constructor(name: string){
-        super("301",name);
+        super();
+        this.mapPlayer=new MapPlayer(this.hasStarted.bind(this));
+        this.mapPlayerScore={};
         this.cible=new Cible301();
-        for(let i of range(1,21))
-            console.log("cible",i,this.cible.mapZone[i](3))
         this.maxShotNumber=3;
-        this.doIfStarted.bind(this);
         this.handleShot.bind(this);
-        this.runGame.bind(this);
     }
-    runGame(callbackWithReturnZoneAndPosFromCenterAsPromise){
-        console.log("runGame",!!this);
-        return super.runGame(callbackWithReturnZoneAndPosFromCenterAsPromise,this.handleShot.bind(this))
+    initScore(value:number){
+        for (let playerId of this.mapPlayer.getMapKeys()){
+            this.mapPlayerScore[playerId]=value;
+        }
     }
-    
+    showAvancement(currentPlayerId){
+        console.log(this.mapPlayer[currentPlayerId].name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
+    }
     handleShot(zone:number,posFromCenter:number) {
         console.log("handleShot",!!this);
         return this.doIfStarted(
@@ -45,12 +52,10 @@ class Game301 extends Game implements Igame{
                 else {
                     this.logTurn();
                 }
-            }).bind(this),
-            "handleShot"
+            }).bind(this),"handleShot"
         )
     }
     init(){
-        super.init();
         this.initScore(301);
     }
 }
