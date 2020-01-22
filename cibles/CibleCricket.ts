@@ -18,20 +18,20 @@ class CibleCricket implements Icible{
         this.mapPlayerClose={};
         this.mapCloseZone={};
         for (number of range(15,21).concat([-1]))
-            this.mapZone[number]=((pos:number,id:number)=>this.getAplly(number,pos,id)).bind(this);
+            this.mapZone[number]=((pos:number,id:number)=>this.getShotResult(number,pos,id)).bind(this);
             this.mapPlayerClose[number]={};
             this.mapCloseZone[number]=false;
         for (number of (range(1,21).concat(range(1,21))))
             console.log("crea",number,this.mapZone[number](3));
     }
-    getAplly(value:number,pos:number,idPlayer:number){
+    getShotResult(value:number,pos:number,idPlayer:number){
         switch (pos) {
             case 0:
                 return this.closeOrScore(-1,idPlayer,50);
             case 2:
-                return this.closeOrScore(value,idPlayer,value)+this.getAplly(value,-1,idPlayer);
+                return this.closeOrScore(value,idPlayer,value)+this.getShotResult(value,-1,idPlayer);
             case 4:
-                return this.closeOrScore(value,idPlayer,value)+this.getAplly(value,2,idPlayer);
+                return this.closeOrScore(value,idPlayer,value)+this.getShotResult(value,2,idPlayer);
             default:
                 return this.closeOrScore(value,idPlayer,value);
         }

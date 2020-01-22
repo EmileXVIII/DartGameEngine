@@ -1,0 +1,26 @@
+{
+  "name": "dartgame_engine",
+  "version": "1.0.0",
+  "description": "dartgame's engine",
+  "main": "main.ts",
+  "dependencies": {
+    "@types/node": "^13.1.8",
+    "Promise": "^1.0.5",
+    "inquirer": "^7.0.3",
+    "promise": "^8.0.3",
+    "ts-node": "^8.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ts-node ./main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.ynov-bordeaux.com:202756/DartGame_engine.git"
+  },
+  "keywords": [
+    "game"
+  ],
+  "author": "emile",
+  "license": "ISC"
+}

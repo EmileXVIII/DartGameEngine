@@ -1,5 +1,5 @@
 interface Icible {
     mapZone:object;
-    getAplly;
+    getShotResult;
 }
 export default Icible;

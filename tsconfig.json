@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "./out",
-        "rootDir": "./src",
+        "rootDir": "./",
         "sourceMap": true,
         "moduleResolution": "node",
         "target": "es5"

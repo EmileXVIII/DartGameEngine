@@ -4,14 +4,14 @@ import range from "../functions/range";
 class Cible301 implements Icible{
     mapZone:{ [key: string]: any } ;
     constructor(){
-        let number:number;
+        let toto:number;
         this.mapZone={};
-        for (number of range(1,21))
-            this.mapZone[number]=((pos:number)=>this.getAplly(number,pos)).bind(this);
-        for (number of (range(1,21).concat(range(1,21))))
-            console.log("crea",number,this.mapZone[number](3));
+        for (let zone of range(1,21))
+            this.mapZone[zone]=(function(pos:number){return this.getAplly(zone,pos)}).bind(this);
+        for (toto of range(1,21))
+            console.log("crea",toto,this.mapZone[toto](3));
     }
-    getAplly(value:number,pos:number){
+    getShotResult(value:number,pos:number){
         switch (pos) {
             case 0:
                 return 50;

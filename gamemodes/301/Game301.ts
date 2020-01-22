@@ -30,7 +30,7 @@ class Game301 extends Game implements Igame{
                 console.log(this.mapPlayerScore);
                 console.log("cible",this.cible);
                 this.currentShotNumber++;
-                let value=this.cible.getApply(zone,posFromCenter);//this.cible.mapZone[zone](posFromCenter);
+                let value=this.cible.getShotResult(zone,posFromCenter);//this.cible.mapZone[zone](posFromCenter);
                 console.log("zone",zone)
                 for(let i of range(1,21))
                     console.log("points",i,this.cible.mapZone[i](3),value)
