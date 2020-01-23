@@ -1,5 +1,5 @@
+/*
 import Game from "../game/Game";
-
 class Engine{
     nbGames:number;
     mapGames:{ [key: string]: Game } ;
@@ -16,3 +16,4 @@ class Engine{
     }
 }
 export default Engine; //module.exports = Engine;
+*/

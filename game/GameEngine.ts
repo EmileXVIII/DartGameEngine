@@ -1,28 +1,23 @@
 import Player from "../player/Player";
 import Igame from "./Igame";
-class ShotPosition{
-    zone:number;
-    posFromCenter:number;
-}
-interface IShotReader{
-    askShot():Promise<ShotPosition>;
-}
+import IStatus from "../utils/classes/IStatus";
+import IShotReader from "../console/IShotReader";
 
 class GameEngine {
     private currentPlayerId: number;
     private currentShotNumber: number;
     private game:Igame;
+    private status:IStatus;
     private hasNotPlayListIds : Array<number>;
-    private id: number;
-    private name: string;
     private shotReader:IShotReader;
-    constructor(name: string, game:Igame, shotReader:IShotReader) {
+    constructor(game:Igame, shotReader:IShotReader, status:IStatus) {
+        this.status=status;
         this.currentShotNumber=0;
         this.game=game;
-        this.name=name;
         this.runGame.bind(this);
         this.shotReader=shotReader;
     }
+    allowGetCurrentPlayerId(){this.game.getCurrentPlayerId.setContext(this)}
     deskWinner(playerId:number){return this.game.doIfStarted(
         (()=>{
             console.log(`${this.game.mapPlayer.getPlayer(playerId).name} is the Winner`);
@@ -34,19 +29,21 @@ class GameEngine {
     getCurrentPlayer(){
         return this.game.mapPlayer.getPlayer(this.currentPlayerId)
     }
+    getCurrentPlayerId(){return this.currentPlayerId}
     getThisId(){
-        return this.id
+        return this.status.getId();
     }
     getName(){
-        return this.name;
+        return this.status.getName();
     }
-    initAll(){
+    private initAll(){
         this.initHasNotPlayListIds();
         this.game.setStatus('started');
         this.nextPlayer();
+        this.allowGetCurrentPlayerId();
     }
     initHasNotPlayListIds(){
-        this.hasNotPlayListIds = <Array<number>><unknown> Object.keys(this.game.mapPlayer).slice(0)
+        this.hasNotPlayListIds = <Array<number>><unknown> this.game.mapPlayer.getMapKeys().slice(0)
     }
     logTurn(){
         console.log(`${this.game.mapPlayer.getPlayer(this.currentPlayerId).name} will now play it's ${this.currentShotNumber+1} shot`)
@@ -60,7 +57,11 @@ class GameEngine {
         "nextPlayer");
     }
     async runGame(){
-        if(!(this.game.hasStarted())) this.initAll();
+        if(this.game.getPlayertCount()===0){console.warn("Not enought Players");return "Not enought Players"}
+        if(!(this.game.hasStarted())) {
+            this.initAll();
+            this.game.setStatus("started");
+        }
         this.logTurn();
         while (this.game.hasStarted()){
             let zone,posFromCenter;

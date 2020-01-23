@@ -1,3 +1,7 @@
+import IStatus from "./IStatus";
+import IDoIfStarted from "./IDoIfStarted";
+import Status from "./Status";
+
 /*
 class DoIfStarted{
     private valueIfStarted:any;
@@ -17,8 +21,7 @@ class DoIfStarted{
     }
 }
 */
-class DoIfStartedExtention{
-    private status:"draft"|"ended"|"started";
+class DoIfStartedExtention extends Status implements IDoIfStarted{
     doIfStarted(callbackBinded,callbackName:string){
         console.log("doIfStarted",!!this);
         return this.hasStarted()
@@ -26,22 +29,10 @@ class DoIfStartedExtention{
         :this.warnNotAllowed(callbackName)
     }
     warnNotAllowed(operation:string){
-        console.log(`${this.status} doesn't allow "${operation}"`)
+        console.log(`${this.getStatus()} doesn't allow "${operation}"`);
     }
     hasStarted(){
-        return this.status==="started"
+        return this.getStatus()==="started"
     }
-    setStatus(status:"draft"|"ended"|"started"){
-        switch (status){
-            case "draft":
-            case "ended":
-            case "started":
-                this.status=status;
-                break
-            default:
-                console.warn("setStatus: illegalArgument")
-        }
-    }
-    getStatus(){return this.status}
 }
 export default DoIfStartedExtention;

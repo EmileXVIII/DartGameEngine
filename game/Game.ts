@@ -1,110 +1,88 @@
+import Igame from "./Igame";
+import Cible301 from "../cibles/Cible301";
+import range from "../utils/functions/range";
+import MapPlayer from "../player/MapPlayer";
+import DoIfStartedExtention from "../utils/classes/DoIfStarted";
+import Icible from "../cibles/ICible";
+import IScorer from "../scorer/IScorer";
+import IScorable from "./IScorable";
+import IScorableGame from "./IScorableGame";
+import IGetId from "../utils/classes/IGetId";
+import GetCurrentPlayerId from "../utils/classes/IGetId";
 import Player from "../player/Player";
-
-abstract class Game {
-    id: number;
-    mode: string;
-    name: string;
-    currentPlayerId: number;
-    currentShotNumber: number;
-    status: string;
-    createdAt: string ;
-    nbPlayers:  number;
-    mapPlayer : { [key: string]: Player };
-    mapPlayerScore : { [key: string]: number };
-    hasNotPlayListIds : Array<number>;
-    constructor(mode: string, name: string) {
-        this.name=name;
-        this.currentShotNumber=0;
-        this.mode=mode;
-        this.status='draft';
-        this.nbPlayers=0;
-        this.mapPlayer={};
+class Game extends DoIfStartedExtention implements IScorableGame{
+    public getCurrentPlayerId:GetCurrentPlayerId;
+    private cible:Icible;
+    private currentShotNumber:number;
+    private currentPlayerId;
+    public mapPlayer : MapPlayer;
+    private mapPlayerScore : { [key: string]: number };
+    private maxShotNumber:number;
+    private mode: string;
+    private scorer:IScorer;
+    constructor(name: string){
+        super(name);
+        this.getCurrentPlayerId=new GetCurrentPlayerId();
+        this.mapPlayer=new MapPlayer(()=>this.getStatus()==="draft");
         this.mapPlayerScore={};
-        this.runGame.bind(this);
-    }
-    async runGame(callbackWithReturnZoneAndPosFromCenterAsPromise, handleShot){
-        if(!(this.status==="started")) this.init();
-        this.logTurn();
-        while (this.status=="started"){
-            let check=true;
-            let zone,posFromCenter;
-            [zone,posFromCenter]= await callbackWithReturnZoneAndPosFromCenterAsPromise().then(res=>[res.zone,res.posFromCenter]).catch((err)=>{console.error(err); return [null,null]})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-            console.log("zone",zone,"pos",posFromCenter);
-            try{
-                <number><unknown>zone;
-                <number><unknown>posFromCenter;
-            check=true;
-            }
-            catch{
-                console.log("imput is not castable to number ");
-                check=false;
-            }
-            if(check) handleShot(<number><unknown>zone,<number><unknown>posFromCenter);
-        }
-    }
-    hasStarted(){
-        if (this.status='started')
-            return true
-        return false;
-    }
-    doIfStarted(callback,callbackName:string){
-        console.log("doIfStarted",!!this);
-        return this.hasStarted()
-            ?callback()
-            :this.warnNotAllowed(callbackName)
+        this.mode="301";
+        this.cible=new Cible301();
+        this.maxShotNumber=3;
+        this.handleShot.bind(this);
     }
     addPlayer(player: Player){
-        if(this.status='draft'){
-            player.id=++this.nbPlayers;
-            this.mapPlayer[this.nbPlayers]=player;
-        }
-        else
-            console.warn(`You can't add a player on a ${this.status} game`)
+        this.mapPlayer.addPlayer(player);
     }
     addPlayers(players: Array<Player>){
-        for (let player of players) this.addPlayer(player)
+        this.mapPlayer.addPlayers(players);
     }
-    deskWinner(playerId:number){return this.doIfStarted(
-         (()=>{
-            console.log(`${this.mapPlayer[playerId].name} is the Winner`);
-            this.status='ended' 
-            }
-        ).bind(this),
-        "deskWinner");
+    getMode(){
+        return this.mode;
     }
-    getCurrentPlayer(){
-        return this.mapPlayer[this.currentPlayerId]
+    getPlayertCount(){return this.mapPlayer.getLen()}
+    getScore(playerId:number){
+        return this.mapPlayerScore[playerId];
     }
-    scoreConsoleLog(){
-        console.log(this.mapPlayer[this.currentPlayerId].name, `has now ${this.mapPlayerScore[this.currentPlayerId]} points`)
-    }
-    warnNotAllowed(operation:string){
-        console.log(`${this.status} doesn't allow "${operation}"`)
-    }
-    nextPlayer(){return this.doIfStarted(
-        (()=>{
-                if (this.hasNotPlayListIds.length==0) this.initHasNotPlayListIds()
-                this.currentPlayerId=this.hasNotPlayListIds.pop()
-            }
-        ).bind(this),
-        "nextPlayer");
-    }
-    initHasNotPlayListIds(){
-        this.hasNotPlayListIds = <Array<number>><unknown> Object.keys(this.mapPlayer).slice(0)
-    }
-    logTurn(){
-        console.log(`${this.mapPlayer[this.currentPlayerId].name} will now play it's ${this.currentShotNumber+1} shot`)
+    setScore(playerId:number,score:number){
+        this.mapPlayerScore[playerId]=score;
     }
     initScore(value:number){
-        for (let playerId of Object.keys(this.mapPlayer)){
+        for (let playerId of this.mapPlayer.getMapKeys()){
             this.mapPlayerScore[playerId]=value;
         }
     }
+    score(value:number){}
+    showAvancement(currentPlayerId){
+        console.log(this.mapPlayer[currentPlayerId].name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
+    }
+    handleShot(zone:number,posFromCenter:number) {
+        console.log("handleShot",!!this);
+        return this.doIfStarted(
+            (function(){
+                console.log("anonymous",!!this);
+                console.log(this.mapPlayerScore);
+                console.log("cible",this.cible);
+                this.currentShotNumber++;
+                let value=this.cible.getShotResult(zone,posFromCenter);//this.cible.mapZone[zone](posFromCenter);
+                console.log("zone",zone)
+                for(let i of range(1,21))
+                    console.log("points",i,this.cible.mapZone[i](3),value)
+                this.score(value);
+                this.showAvancement(this.currentPlayerId);
+                if (this.mapPlayerScore[this.currentPlayerId]!==0 && this.currentShotNumber>this.maxShotNumber){
+                    this.currentShotNumber=0;
+                    this.nextPlayer();
+                }
+                if(this.mapPlayerScore[this.currentPlayerId]===0) this.deskWinner(this.currentPlayerId);
+                else {
+                    this.logTurn();
+                }
+            }).bind(this),"handleShot"
+        )
+    }
     init(){
-        this.initHasNotPlayListIds();
-        this.initScore(0);
-        this.status='started';
-        this.nextPlayer();
+        this.initScore(301);
+        this.currentShotNumber=0;
     }
 }
-export default Game;
+export default Game; //module.exports = Game301;

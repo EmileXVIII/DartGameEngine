@@ -1,5 +1,5 @@
-import Icible from "./Icible";
-import range from "../functions/range";
+import Icible from "./ICible";
+import range from "../utils/functions/range";
 
 class Cible301 implements Icible{
     mapZone:{ [key: string]: any } ;
@@ -7,7 +7,7 @@ class Cible301 implements Icible{
         let toto:number;
         this.mapZone={};
         for (let zone of range(1,21))
-            this.mapZone[zone]=(function(pos:number){return this.getAplly(zone,pos)}).bind(this);
+            this.mapZone[zone]=(function(pos:number){return this.getShotResult(zone,pos)}).bind(this);
         for (toto of range(1,21))
             console.log("crea",toto,this.mapZone[toto](3));
     }

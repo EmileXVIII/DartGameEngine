@@ -1,11 +1,14 @@
+import IShotReader from "./IShotReader";
+import ShotPosition from "./ShotPosition";
+
 let inquirer=require('inquirer');
 
-class Inquirer{
+class Inquirer implements IShotReader{
     inquirer;
     constructor(){
         this.inquirer = require('inquirer');
     }
-    askShots() {
+    askShot() {
         return this.inquirer.prompt([
             {
                 message:"Write zone Shot :\n",
@@ -15,7 +18,7 @@ class Inquirer{
                 message:"Write zone position from center :\n",
                 name:"posFromCenter"
             }
-        ])
+        ]).then(res => new ShotPosition(res.zone,res.posFromCenter))
     }
 }
 

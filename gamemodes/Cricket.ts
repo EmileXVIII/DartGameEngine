@@ -1,7 +1,6 @@
-import Game from "../game/Game";
+/*import Game from "../game/Game";
 import Igame from "../game/Igame";
 import range from "../functions/range";
-
 class Cricket extends Game implements Igame{
     maxShotNumber:number;
     constructor(name:string){
@@ -43,3 +42,4 @@ class Cricket extends Game implements Igame{
     }
 }
 export default Cricket;
+*/

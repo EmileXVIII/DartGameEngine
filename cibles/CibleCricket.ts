@@ -1,4 +1,5 @@
-import Icible from "./Icible";
+/*
+import Icible from "./ICible";
 import range from "../functions/range";
 
 class CibleCricket implements Icible{
@@ -10,7 +11,7 @@ class CibleCricket implements Icible{
             idPlayer:nbClosing
         }
     }
-    */
+    
     mapCloseZone:{ [key: number]: boolean }
     constructor(){
         let number:number;
@@ -58,3 +59,4 @@ class CibleCricket implements Icible{
     }
 }
 export default CibleCricket;
+*/

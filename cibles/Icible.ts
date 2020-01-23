@@ -1,5 +1,5 @@
 interface Icible {
     mapZone:object;
-    getShotResult;
+    getShotResult(value:number,pos:number):number;
 }
 export default Icible;
