@@ -68,7 +68,7 @@ class GameEngine {
             [zone,posFromCenter]= await this.shotReader.askShot().then(res=>[res.zone,res.posFromCenter]).catch((err)=>{console.error(err); return [null,null]})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
             console.log("zone",zone,"pos",posFromCenter);
             this.game.handleShot(zone,posFromCenter);
-            this.game.showAvancement(this.currentPlayerId);
+            if(this.game.hasStarted()) this.logTurn();
         }
     }
 }

@@ -20,12 +20,12 @@ class Game extends DoIfStartedExtention implements IScorableGame{
     private maxShotNumber:number;
     private mode: string;
     private scorer:IScorer;
-    constructor(name: string){
+    constructor(name: string,mode:string){
         super(name);
         this.getCurrentPlayerId=new GetCurrentPlayerId();
         this.mapPlayer=new MapPlayer(()=>this.getStatus()==="draft");
         this.mapPlayerScore={};
-        this.mode="301";
+        this.mode=mode;
         this.cible=new Cible301();
         this.maxShotNumber=3;
         this.handleShot.bind(this);
@@ -52,8 +52,8 @@ class Game extends DoIfStartedExtention implements IScorableGame{
         }
     }
     score(value:number){}
-    showAvancement(currentPlayerId){
-        console.log(this.mapPlayer[currentPlayerId].name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
+    showAvancement(currentPlayerId:number){
+        console.log(this.mapPlayer.getPlayer(currentPlayerId).name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
     }
     handleShot(zone:number,posFromCenter:number) {
         console.log("handleShot",!!this);
@@ -68,15 +68,12 @@ class Game extends DoIfStartedExtention implements IScorableGame{
                 for(let i of range(1,21))
                     console.log("points",i,this.cible.mapZone[i](3),value)
                 this.score(value);
-                this.showAvancement(this.currentPlayerId);
+                this.showAvancement(this.getCurrentPlayerId.getId());
                 if (this.mapPlayerScore[this.currentPlayerId]!==0 && this.currentShotNumber>this.maxShotNumber){
                     this.currentShotNumber=0;
                     this.nextPlayer();
                 }
                 if(this.mapPlayerScore[this.currentPlayerId]===0) this.deskWinner(this.currentPlayerId);
-                else {
-                    this.logTurn();
-                }
             }).bind(this),"handleShot"
         )
     }

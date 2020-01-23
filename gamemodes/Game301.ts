@@ -4,7 +4,7 @@ import GetCurrentPlayerId from "../utils/classes/IGetId";
 
 class Game301 extends Game implements IScorer{
     constructor(name:string){
-        super(name);
+        super(name,"301");
     }
     score(value:number){
         let actualScore=this.getScore(this.getCurrentPlayerId.getId());
