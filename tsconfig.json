@@ -5,5 +5,10 @@
         "sourceMap": true,
         "moduleResolution": "node",
         "target": "es5"
-    }
+    },
+    "exclude": [
+        "./cible/CibleCricket.ts",
+        "./gamemodes/Cricket.ts"
+    ]
 }
+

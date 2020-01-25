@@ -18,7 +18,7 @@ class Inquirer implements IShotReader{
                 message:"Write zone position from center :\n",
                 name:"posFromCenter"
             }
-        ]).then(res => new ShotPosition(res.zone,res.posFromCenter))
+        ]).then((answers:ShotPosition) => {console.log("#######################################answers",JSON.stringify(answers, null, '  '));return new ShotPosition(answers.zone,answers.posFromCenter)})
     }
 }
 

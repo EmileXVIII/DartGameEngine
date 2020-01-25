@@ -4,6 +4,7 @@ import GameEngine from "../../game/GameEngine";
 interface IGetId{
     getId():number;
 }
+/*
 class GetCurrentPlayerId implements IGetId{
     context:GameEngine;
     constructor(){
@@ -15,4 +16,5 @@ class GetCurrentPlayerId implements IGetId{
     getId(){return this.context?this.context.getCurrentPlayerId():undefined}
 
 }
-export default GetCurrentPlayerId;
+*/
+export default IGetId;

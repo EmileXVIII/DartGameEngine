@@ -1,31 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var range_1 = require("../functions/range");
+var range_1 = require("../utils/functions/range");
 var Cible301 = /** @class */ (function () {
     function Cible301() {
-        var zone;
         var toto;
         this.mapZone = {};
+        var _loop_1 = function (zone) {
+            this_1.mapZone[zone] = (function (pos) { return this.getShotResult(zone, pos); }).bind(this_1);
+        };
+        var this_1 = this;
         for (var _i = 0, _a = range_1.default(1, 21); _i < _a.length; _i++) {
-            zone = _a[_i];
-            this.mapZone[zone] = (function (pos) { return this.getAplly(zone, pos); }).bind(this);
-        }
-        for (var _b = 0, _c = range_1.default(1, 21); _b < _c.length; _b++) {
-            toto = _c[_b];
-            console.log("crea", toto, this.mapZone[toto](3));
+            var zone = _a[_i];
+            _loop_1(zone);
         }
     }
-    Cible301.prototype.getAplly = function (value, pos) {
+    Cible301.prototype.getShotResult = function (value, pos) {
+        var shotResult;
+        pos = Number(pos);
         switch (pos) {
             case 0:
-                return 50;
+                shotResult = 50;
+                break;
             case 2:
-                return 2 * value;
+                shotResult = 2 * value;
+                break;
             case 4:
-                return 3 * value;
+                shotResult = 3 * value;
+                break;
             default:
-                return value;
+                shotResult = value;
+                break;
         }
+        console.log("xx:getShotResult(" + value + "," + pos + ") : " + shotResult + ", typeOf " + typeof (pos));
+        return shotResult;
     };
     return Cible301;
 }());

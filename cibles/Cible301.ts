@@ -8,20 +8,27 @@ class Cible301 implements Icible{
         this.mapZone={};
         for (let zone of range(1,21))
             this.mapZone[zone]=(function(pos:number){return this.getShotResult(zone,pos)}).bind(this);
-        for (toto of range(1,21))
-            console.log("crea",toto,this.mapZone[toto](3));
     }
     getShotResult(value:number,pos:number){
+        let shotResult:number;
+        pos=Number(pos);
+
         switch (pos) {
             case 0:
-                return 50;
+                shotResult = 50;
+                break;
             case 2:
-                return 2*value;
+                shotResult = 2*value;
+                break;
             case 4:
-                return 3*value;
+                shotResult = 3*value;
+                break;
             default:
-                return value;
+                shotResult = value;
+                break;
         }
+        console.log(`xx:getShotResult(${value},${pos}) : ${shotResult}, typeOf ${typeof(pos)}`)
+        return shotResult;
     }
 }
 export default Cible301;
