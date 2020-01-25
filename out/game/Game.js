@@ -52,7 +52,7 @@ var Game = /** @class */ (function (_super) {
         }
     };
     Game.prototype.setCurrentPlayerId = function (playerId) { this.currentPlayerId = playerId; };
-    Game.prototype.score = function (value) { };
+    Game.prototype.score = function (shotResult) { };
     Game.prototype.showAvancement = function (currentPlayerId) {
         console.log(this.mapPlayer.getPlayer(currentPlayerId).name, "has now " + this.mapPlayerScore[currentPlayerId] + " points");
     };

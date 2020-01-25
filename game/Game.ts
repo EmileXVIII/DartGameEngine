@@ -6,8 +6,9 @@ import IScorable from "./IScorable";
 import Player from "../player/Player";
 import IGameEngine from "./IGameEngine";
 import ICible from "../cibles/ICible";
+import IShot from "./IShot";
 class Game extends DoIfStartedExtention implements IScorable,Igame{
-    cible:ICible;
+    public cible:ICible;
     public currentShotNumber:number;
     private currentPlayerId;
     private initScoreValue:number;
@@ -49,7 +50,7 @@ class Game extends DoIfStartedExtention implements IScorable,Igame{
         }
     }
     setCurrentPlayerId(playerId:number){this.currentPlayerId=playerId}
-    score(value:number,pos:number){}
+    score(shotResult:IShot){}
     showAvancement(currentPlayerId:number){
         console.log(this.mapPlayer.getPlayer(currentPlayerId).name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
     }

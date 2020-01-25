@@ -22,10 +22,10 @@ var Game301 = /** @class */ (function (_super) {
         _this.cible = new Cible301_1.default();
         return _this;
     }
-    Game301.prototype.score = function (value) {
+    Game301.prototype.score = function (shot) {
         var actualScore = this.getScore(this.getCurrentPlayerId());
-        if (actualScore >= value && (actualScore - value) !== 1)
-            this.setScore(this.getCurrentPlayerId(), actualScore - value);
+        if ((actualScore > shot.getShotValue() && (actualScore - shot.getShotValue()) !== 1) || (actualScore - shot.getShotValue() === 0 && shot.getShotPosition() === 4))
+            this.setScore(this.getCurrentPlayerId(), actualScore - shot.getShotValue());
     };
     return Game301;
 }(Game_1.default));

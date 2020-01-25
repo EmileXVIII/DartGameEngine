@@ -1,4 +1,6 @@
+import IShot from "../game/IShot";
+
 interface IScorer{
-    score(pointValue:number):any;
+    score(shot:IShot):any;
 }
 export default IScorer;

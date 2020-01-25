@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var range_1 = require("../utils/functions/range");
+var Shot_1 = require("../game/Shot");
 var Cible301 = /** @class */ (function () {
     function Cible301() {
         var toto;
@@ -14,25 +15,24 @@ var Cible301 = /** @class */ (function () {
             _loop_1(zone);
         }
     }
-    Cible301.prototype.getShotResult = function (value, pos) {
-        var shotResult;
-        pos = Number(pos);
-        switch (pos) {
+    Cible301.prototype.getShotResult = function (shot) {
+        var result;
+        switch (Number(shot.getShotPosition())) {
             case 0:
-                shotResult = 50;
+                result = 50;
                 break;
             case 2:
-                shotResult = 2 * value;
+                result = 3 * shot.getShotValue();
                 break;
             case 4:
-                shotResult = 3 * value;
+                result = 2 * shot.getShotValue();
                 break;
             default:
-                shotResult = value;
+                result = shot.getShotValue();
                 break;
         }
-        console.log("xx:getShotResult(" + value + "," + pos + ") : " + shotResult + ", typeOf " + typeof (pos));
-        return shotResult;
+        //console.log(`xx:getShotResult(${value},${pos}) : ${shotResult}, typeOf ${typeof(pos)}`)
+        return new Shot_1.default(shot.getShotPosition(), result);
     };
     return Cible301;
 }());

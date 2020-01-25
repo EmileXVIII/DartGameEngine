@@ -4,6 +4,7 @@ import IStatus from "../utils/classes/IStatus";
 import IShotReader from "../console/IShotReader";
 import ShotPosition from "../console/ShotPosition";
 import IGameEngine from "./IGameEngine";
+import IShot from "./IShot";
 
 class GameEngine implements IGameEngine{
     private currentPlayerId: number;
@@ -36,16 +37,15 @@ class GameEngine implements IGameEngine{
     getName(){
         return this.status.getName();
     }
-    handleShot(zone:number,posFromCenter:number) {
+    handleShot(shot:IShot) {
         console.log("handleShot",!!this);
         return this.game.doIfStarted(
             (function(){
                 console.log("anonymous",!!this);
                 //console.log("cible",this.cible);
                 this.game.currentShotNumber++;
-                let value=this.game.cible.getShotResult(zone,posFromCenter);//this.cible.mapZone[zone](posFromCenter);
-                console.log("zone",zone)
-                this.game.score(value);
+                let shotResult =this.game.cible.getShotResult(shot);//this.cible.mapZone[zone](posFromCenter);
+                this.game.score(shotResult);
                 this.game.showAvancement(this.getCurrentPlayerId());
                 if (this.game.mapPlayerScore[this.getCurrentPlayerId()]!==0 && this.game.currentShotNumber>this.game.maxShotNumber){
                     this.game.currentShotNumber=1;
@@ -84,10 +84,10 @@ class GameEngine implements IGameEngine{
         }
         this.logTurn();
         while (this.game.hasStarted()){
-            let shotPosition:ShotPosition= await this.shotReader.askShot().catch((err)=>{console.error(err); return null})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-            //let shotPosition:ShotPosition = new ShotPosition(1,2);
-            console.log("###zone",shotPosition.zone,"pos",shotPosition.posFromCenter);
-            this.handleShot(shotPosition.zone,shotPosition.posFromCenter);
+            let shot:IShot= await this.shotReader.askShot().catch((err)=>{console.error(err); return null})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
+            //let shot:Shot = new Shot(1,2);
+            console.log("###zone",shot.getShotValue(),"pos",shot.getShotPosition());
+            this.handleShot(shot);
             if(this.game.hasStarted()) this.logTurn();
         }
     }

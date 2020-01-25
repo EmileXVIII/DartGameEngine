@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ShotPosition_1 = require("./ShotPosition");
+var Shot_1 = require("../game/Shot");
 var inquirer = require('inquirer');
 var Inquirer = /** @class */ (function () {
     function Inquirer() {
@@ -16,7 +16,7 @@ var Inquirer = /** @class */ (function () {
                 message: "Write zone position from center :\n",
                 name: "posFromCenter"
             }
-        ]).then(function (answers) { console.log("#######################################answers", JSON.stringify(answers, null, '  ')); return new ShotPosition_1.default(answers.zone, answers.posFromCenter); });
+        ]).then(function (answers) { console.log("#######################################answers", JSON.stringify(answers, null, '  ')); return new Shot_1.default(answers.zone, answers.posFromCenter); });
     };
     return Inquirer;
 }());

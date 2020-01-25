@@ -1,5 +1,7 @@
+import IShot from "../game/IShot";
+
 interface ICible {
     mapZone:object;
-    getShotResult(value:number,pos:number):number;
+    getShotResult(shot:IShot):IShot;
 }
 export default ICible;

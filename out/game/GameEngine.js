@@ -60,15 +60,14 @@ var GameEngine = /** @class */ (function () {
     GameEngine.prototype.getName = function () {
         return this.status.getName();
     };
-    GameEngine.prototype.handleShot = function (zone, posFromCenter) {
+    GameEngine.prototype.handleShot = function (shot) {
         console.log("handleShot", !!this);
         return this.game.doIfStarted((function () {
             console.log("anonymous", !!this);
             //console.log("cible",this.cible);
             this.game.currentShotNumber++;
-            var value = this.game.cible.getShotResult(zone, posFromCenter); //this.cible.mapZone[zone](posFromCenter);
-            console.log("zone", zone);
-            this.game.score(value);
+            var shotResult = this.game.cible.getShotResult(shot); //this.cible.mapZone[zone](posFromCenter);
+            this.game.score(shotResult);
             this.game.showAvancement(this.getCurrentPlayerId());
             if (this.game.mapPlayerScore[this.getCurrentPlayerId()] !== 0 && this.game.currentShotNumber > this.game.maxShotNumber) {
                 this.game.currentShotNumber = 1;
@@ -100,7 +99,7 @@ var GameEngine = /** @class */ (function () {
     };
     GameEngine.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var shotPosition;
+            var shot;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -118,14 +117,14 @@ var GameEngine = /** @class */ (function () {
                     case 1:
                         if (!this.game.hasStarted()) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.shotReader.askShot().catch(function (err) { console.error(err); return null; })
-                            //let shotPosition:ShotPosition = new ShotPosition(1,2);
+                            //let shot:Shot = new Shot(1,2);
                         ]; //source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
                     case 2:
-                        shotPosition = _a.sent() //source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
+                        shot = _a.sent() //source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
                         ;
-                        //let shotPosition:ShotPosition = new ShotPosition(1,2);
-                        console.log("###zone", shotPosition.zone, "pos", shotPosition.posFromCenter);
-                        this.handleShot(shotPosition.zone, shotPosition.posFromCenter);
+                        //let shot:Shot = new Shot(1,2);
+                        console.log("###zone", shot.getShotValue(), "pos", shot.getShotPosition());
+                        this.handleShot(shot);
                         if (this.game.hasStarted())
                             this.logTurn();
                         return [3 /*break*/, 1];

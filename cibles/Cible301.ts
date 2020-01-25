@@ -1,5 +1,7 @@
 import Icible from "./ICible";
 import range from "../utils/functions/range";
+import IShot from "../game/IShot";
+import Shot from "../game/Shot";
 
 class Cible301 implements Icible{
     mapZone:{ [key: string]: any } ;
@@ -9,26 +11,26 @@ class Cible301 implements Icible{
         for (let zone of range(1,21))
             this.mapZone[zone]=(function(pos:number){return this.getShotResult(zone,pos)}).bind(this);
     }
-    getShotResult(value:number,pos:number){
-        let shotResult:number;
-        pos=Number(pos);
+    getShotResult(shot:IShot){
+        let result:number;
+        
 
-        switch (pos) {
+        switch (Number(shot.getShotPosition())) {
             case 0:
-                shotResult = 50;
+                result = 50;
                 break;
             case 2:
-                shotResult = 2*value;
+                result = 3*shot.getShotValue();
                 break;
             case 4:
-                shotResult = 3*value;
+                result = 2*shot.getShotValue();
                 break;
             default:
-                shotResult = value;
+                result = shot.getShotValue();
                 break;
         }
-        console.log(`xx:getShotResult(${value},${pos}) : ${shotResult}, typeOf ${typeof(pos)}`)
-        return shotResult;
+        //console.log(`xx:getShotResult(${value},${pos}) : ${shotResult}, typeOf ${typeof(pos)}`)
+        return new Shot(shot.getShotPosition(),result);
     }
 }
 export default Cible301;
