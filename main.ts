@@ -4,10 +4,12 @@ import Igame from "./game/Igame";
 import GameEngine from "./game/GameEngine";
 import Status from "./utils/classes/Status";
 import Game301 from "./gamemodes/Game301";
+import intro from "./console/readMe";
 //let Engine = require("./engine/Engine.ts");
 //let Game301 = require("./gamemodes/301/Game301");
 process.env.TS_NODE_PROJECT="./tsconfig.json";
 function main(){
+    intro();
     let aaa:Player = new Player("aaa","aaa@dartgame.fr");
     let bbb:Player = new Player("bbb","bbb@dartgame.fr");
     let ccc:Player = new Player("ccc","ccc@dartgame.fr");

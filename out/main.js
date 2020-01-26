@@ -5,10 +5,12 @@ var Inquirer_1 = require("./console/Inquirer");
 var GameEngine_1 = require("./game/GameEngine");
 var Status_1 = require("./utils/classes/Status");
 var Game301_1 = require("./gamemodes/Game301");
+var readMe_1 = require("./console/readMe");
 //let Engine = require("./engine/Engine.ts");
 //let Game301 = require("./gamemodes/301/Game301");
 process.env.TS_NODE_PROJECT = "./tsconfig.json";
 function main() {
+    readMe_1.default();
     var aaa = new Player_1.default("aaa", "aaa@dartgame.fr");
     var bbb = new Player_1.default("bbb", "bbb@dartgame.fr");
     var ccc = new Player_1.default("ccc", "ccc@dartgame.fr");
