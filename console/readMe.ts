@@ -1,4 +1,5 @@
 import range from "../utils/functions/range"
+import Shot from "../game/Shot";
 class CoupleIJ{
     private coordI:number;
     private coordJ:number;
@@ -18,6 +19,7 @@ class MatrixCibleLogable{
     private stringZone:string;
     private matrix:any[];
     private serie:number[];
+    private nbZones:number;
     constructor(){
         this.stringZone="zone";
         this.matrix=[];
@@ -52,6 +54,7 @@ class MatrixCibleLogable{
     
     public createMatrix(nbZones:number){
         let nbZonesToPlace= nbZones;
+        this.nbZones=nbZones;
         //init Matrix
         for (let lignes of range(0,11)){
             this.matrix.push([]);
@@ -118,6 +121,102 @@ class MatrixCibleLogable{
                 this.matrix[i].slice(0,5).concat([newLine[i]],this.matrix[i].slice(5));
         }
     }
+    private getZoneDiag(value:number,nbZones:number){
+        return ((nbZones/4)*value)+1
+    }
+    private setMessage(coupleIJ:CoupleIJ,message:string){
+        this.matrix[coupleIJ.i][coupleIJ.j]=message;
+    }
+    private getStart(shema:string,maxInd:number,position:number){
+        let i:number,j:number;
+        switch (shema){
+            case 'O':
+                j=position
+                break;
+            case "N":
+                i=position
+                break;
+            case "S":
+                i=maxInd-position
+                break;
+            case "W":
+                j=maxInd-position
+                break;
+        }
+        return new CoupleIJ(i,j);
+    }
+    private getCoupleIJ(shot:Shot,shema:"NO"|"N"|"NW"|"W"|"SW"|"S"|"SO"|"O",message:string,nbZones:number){
+        let maxInd=this.matrix.length-1;
+        let value=shot.getShotValue()%(nbZones/4)
+        let position=(4-shot.getShotPosition()+1)
+        let coupleIJ1:CoupleIJ;
+        let i:number,j:number;
+        switch (shema.length){
+            case 2:
+                coupleIJ1=this.getStart(shema[0],maxInd,position);
+                let coupleIJ2=this.getStart(shema[1],maxInd,position);
+                i=coupleIJ1.i?coupleIJ1.i:coupleIJ2.i;
+                j=coupleIJ1.j?coupleIJ1.j:coupleIJ2.j;
+                break
+            case 1:
+                let x=4+value-1;
+                if(shema==="S"||shema==="W"){
+                    x=maxInd-x
+                }
+                coupleIJ1=this.getStart(shema,maxInd,position);
+                if(coupleIJ1.i){
+                    i=coupleIJ1.i;
+                    j=x;
+                }
+                else {
+                    j=coupleIJ1.j;
+                    i=x;
+                }
+                break
+            default:
+                return;
+        }
+        
+
+        this.setMessage(new CoupleIJ(i,j),message)
+    }
+
+    public changeMessage(shot:Shot,message:string){
+        if(shot.getShotValue()>this.nbZones||shot.getShotPosition()>4||shot.getShotPosition()<0) return;
+        let nbZones=this.nbZones+this.nbZones%4;
+        let shema:"NO"|"N"|"NW"|"W"|"SW"|"S"|"SO"|"O";
+        switch(shot.getShotValue()){
+            case this.getZoneDiag(0,nbZones):
+                shema="NO";
+                break;
+            case this.getZoneDiag(1,nbZones):
+                shema="NW";
+                break;
+            case this.getZoneDiag(2,nbZones):
+                shema="SW";
+                break;
+            case this.getZoneDiag(3,nbZones):
+                shema="SO";
+                break;
+            default :
+                switch(Math.trunc(shot.getShotValue()/(nbZones/4))){
+                    case 0:
+                        shema="N";
+                        break;
+                    case 1:
+                        shema="W";
+                        break;
+                    case 2:
+                        shema="S";
+                        break;
+                    case 3:
+                        shema="O";
+                        break;
+                }
+                break;
+        }
+        this.getCoupleIJ(shot,shema,message,nbZones)
+    }
 }
 function intro(){
     /*
@@ -147,18 +246,13 @@ function intro(){
     }
 
     console.log(toLogable(mat));
-    console.log("? Write zone Shot \: \n 1\n?  Write zone position from center \: \n 3");
-    mat[2][5]="X"
-    console.log(toLogable(mat));
-    console.log("? Write zone Shot \: \n 8\n?  Write zone position from center \: \n 1");
-    mat[6][6]="X"
-    console.log(toLogable(mat));
-    console.log("? Write zone Shot \: \n 1\n?  Write zone position from center \: \n 0");
-    mat[5][5]="X"
     console.log(toLogable(mat));
     */
    let matrix=new MatrixCibleLogable();
    matrix.createMatrix(20);
+   matrix.logInConsole();
+   console.log("? Write zone Shot \: \n 6\n?  Write zone position from center \: \n 3");
+   matrix.changeMessage(new Shot(3,6),'X')
    matrix.logInConsole();
 }
 export default intro
