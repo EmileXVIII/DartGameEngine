@@ -1,27 +1,126 @@
 import range from "../utils/functions/range"
-function formatLogable(stringValue:string, nbCaract:number=6){
-    let bool=true;
-    while(stringValue.length!=nbCaract){
-        bool=!bool;
-        if (bool){stringValue+=" "}
-        else {stringValue=" "+stringValue}
+class CoupleIJ{
+    private coordI:number;
+    private coordJ:number;
+    public get i() : number {
+        return this.coordI;
     }
-    return stringValue;
+    public get j() : number {
+        return this.coordJ;
+    }
+    
+    constructor(i,j){
+        this.coordI=i;
+        this.coordJ=j;
+    }
 }
-function toLogable(mat){
-    let toLog="";
-    for (let ligne in mat){
-        for (let collone in mat[ligne]){
-            let stringValue=formatLogable(mat[ligne][collone])
-            toLog+=stringValue+"|";
-        }
-        toLog+="\n";
-        mat.forEach(() => {toLog+="______"+"_"});
-        toLog+="\n";
+class MatrixCibleLogable{
+    private stringZone:string;
+    private matrix:any[];
+    private serie:number[];
+    constructor(){
+        this.stringZone="zone";
+        this.matrix=[];
+        this.serie = range(1,5).reverse();;
+        this.serie=this.serie.concat([0],this.serie.slice(0).reverse());
     }
-    return toLog;
+    private formatLogable(stringValue:string, nbCaract:number=6){
+        let bool=true;
+        while(stringValue.length!=nbCaract){
+            bool=!bool;
+            if (bool){stringValue+=" "}
+            else {stringValue=" "+stringValue}
+        }
+        return stringValue;
+    }
+    private toLogable(){
+        let toLog="";
+        for (let ligne in this.matrix){
+            for (let collone in this.matrix[ligne]){
+                let stringValue=this.formatLogable(this.matrix[ligne][collone])
+                toLog+=stringValue+"|";
+            }
+            toLog+="\n";
+            this.matrix.forEach(() => {toLog+="______"+"_"});
+            toLog+="\n";
+        }
+        return toLog;
+    }
+    public logInConsole(){
+        console.log(this.toLogable())
+    };
+    
+    public createMatrix(nbZones:number){
+        let nbZonesToPlace= nbZones;
+        //init Matrix
+        for (let lignes of range(0,11)){
+            this.matrix.push([]);
+            for(let collones of range(0,11)){
+                this.matrix[lignes][collones]="";
+            }
+        }
+        //place posFromCenter
+        for (let i of range(1,10)){
+            this.matrix[i][5]=this.serie[i-1];
+            this.matrix[5][i]=this.serie[i-1];
+            this.matrix[i][i]=this.serie[i-1];
+            this.matrix[10-i][i]=this.serie[i-1];
+        }
+        nbZonesToPlace-=8;
+        while(nbZonesToPlace>0){
+            this.addLine();
+            this.addCol();
+            nbZonesToPlace-=4;
+        }
+        let maxInd=this.matrix.length-1;
+        let listePos:Array<CoupleIJ>=[];
+        listePos.push(new CoupleIJ(0,0))
+        let i=5;
+        while(i!=maxInd-4){
+            listePos.push(new CoupleIJ(0,i++))
+        }
+        let listToIterate=listePos.slice(0);
+        for(let coupleIJ of listToIterate){
+            listePos.push(new CoupleIJ(coupleIJ.j,maxInd-coupleIJ.i))
+        }
+        for(let coupleIJ of listToIterate){
+            listePos.push(new CoupleIJ(maxInd-coupleIJ.i,maxInd-coupleIJ.j))
+        }
+        for(let coupleIJ of listToIterate){
+            listePos.push(new CoupleIJ(maxInd-coupleIJ.j,coupleIJ.i))
+        }
+
+        for(let numZone of range(1,nbZones+1)){
+            this.matrix[listePos[numZone-1].i][listePos[numZone-1].j]
+                =this.stringZone+numZone;
+        }
+    }
+    private newLine(lineMaxInd){
+        let newLine=[];
+        this.matrix[0].forEach(()=>newLine.push(0));
+        newLine[0]="";
+        newLine[lineMaxInd]="";
+        for(let i=1,serieLen=(this.serie.length-1)/2;i<=serieLen;i++){
+            newLine[i]=this.serie[i-1];
+            newLine[lineMaxInd-i]=this.serie[i-1];
+        }
+        return newLine;
+    }
+    private addLine(){
+        let newLine=this.newLine(this.matrix[0].length-1)
+        this.matrix=this.matrix.slice(0,5).concat([newLine],this.matrix.slice(5));
+    }
+    private addCol(){
+        let colLen=this.matrix.length;
+        let newLine=this.newLine(colLen-1);
+        for (let i=0;i<colLen;i++){
+            this.matrix[i]=
+                this.matrix[i].slice(0,5).concat([newLine[i]],this.matrix[i].slice(5));
+        }
+    }
 }
 function intro(){
+    /*
     console.log("An exemple of cible")
     let mat=[]
     for (let lignes of range(0,11)){
@@ -57,5 +156,9 @@ function intro(){
     console.log("? Write zone Shot \: \n 1\n?  Write zone position from center \: \n 0");
     mat[5][5]="X"
     console.log(toLogable(mat));
+    */
+   let matrix=new MatrixCibleLogable();
+   matrix.createMatrix(20);
+   matrix.logInConsole();
 }
 export default intro
