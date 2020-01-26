@@ -16,7 +16,7 @@ var Inquirer = /** @class */ (function () {
                 message: "Write zone position from center :\n",
                 name: "posFromCenter"
             }
-        ]).then(function (answers) { console.log("#######################################answers", JSON.stringify(answers, null, '  ')); return new Shot_1.default(answers.zone, answers.posFromCenter); });
+        ]).then(function (answers) { console.log("#######################################answers", JSON.stringify(answers, null, '  ')); return new Shot_1.default(answers.posFromCenter, answers.zone); });
     };
     return Inquirer;
 }());
