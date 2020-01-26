@@ -10,7 +10,8 @@ class Game301 extends Game implements IScorer{
         super(name,"301",3,301,0);
         this.cible=new Cible301();
     }
-    score(shot:IShot){
+    score(shot:IShot,originalShot:IShot){
+        this.cible.showCibleShot(originalShot);
         let actualScore=this.getScore(this.getCurrentPlayerId());
         if ((actualScore > shot.getShotValue() && (actualScore-shot.getShotValue())!==1)||(actualScore-shot.getShotValue()===0&&shot.getShotPosition()===4))
         this.setScore(this.getCurrentPlayerId(),actualScore-shot.getShotValue());

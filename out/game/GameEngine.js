@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Shot_1 = require("./Shot");
 var GameEngine = /** @class */ (function () {
     function GameEngine(game, shotReader, status) {
         this.status = status;
@@ -67,7 +68,7 @@ var GameEngine = /** @class */ (function () {
             //console.log("cible",this.cible);
             this.game.currentShotNumber++;
             var shotResult = this.game.cible.getShotResult(shot); //this.cible.mapZone[zone](posFromCenter);
-            this.game.score(shotResult);
+            this.game.score(shotResult, shot);
             this.game.showAvancement(this.getCurrentPlayerId());
             if (this.game.mapPlayerScore[this.getCurrentPlayerId()] !== 0 && this.game.currentShotNumber > this.game.maxShotNumber) {
                 this.game.currentShotNumber = 1;
@@ -101,35 +102,24 @@ var GameEngine = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var shot;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.game.getPlayertCount() === 0) {
-                            console.warn("Not enought Players");
-                            return [2 /*return*/, "Not enought Players"];
-                        }
-                        if (!(this.game.hasStarted())) {
-                            this.game.init();
-                            this.initAll();
-                            this.game.setStatus("started");
-                        }
-                        this.logTurn();
-                        _a.label = 1;
-                    case 1:
-                        if (!this.game.hasStarted()) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.shotReader.askShot().catch(function (err) { console.error(err); return null; })
-                            //let shot:Shot = new Shot(1,2);
-                        ]; //source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-                    case 2:
-                        shot = _a.sent() //source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-                        ;
-                        //let shot:Shot = new Shot(1,2);
-                        console.log("###zone", shot.getShotValue(), "pos", shot.getShotPosition());
-                        this.handleShot(shot);
-                        if (this.game.hasStarted())
-                            this.logTurn();
-                        return [3 /*break*/, 1];
-                    case 3: return [2 /*return*/];
+                if (this.game.getPlayertCount() === 0) {
+                    console.warn("Not enought Players");
+                    return [2 /*return*/, "Not enought Players"];
                 }
+                if (!(this.game.hasStarted())) {
+                    this.game.init();
+                    this.initAll();
+                    this.game.setStatus("started");
+                }
+                this.logTurn();
+                while (this.game.hasStarted()) {
+                    shot = new Shot_1.default(2, 20);
+                    console.log("###zone", shot.getShotValue(), "pos", shot.getShotPosition());
+                    this.handleShot(shot);
+                    if (this.game.hasStarted())
+                        this.logTurn();
+                }
+                return [2 /*return*/];
             });
         });
     };

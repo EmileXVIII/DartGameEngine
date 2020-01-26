@@ -50,7 +50,7 @@ class Game extends DoIfStartedExtention implements IScorable,Igame{
         }
     }
     setCurrentPlayerId(playerId:number){this.currentPlayerId=playerId}
-    score(shotResult:IShot){}
+    score(shotResult:IShot,originalShot:IShot){}
     showAvancement(currentPlayerId:number){
         console.log(this.mapPlayer.getPlayer(currentPlayerId).name, `has now ${this.mapPlayerScore[currentPlayerId]} points`)
     }

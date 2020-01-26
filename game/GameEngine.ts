@@ -5,6 +5,7 @@ import IShotReader from "../console/IShotReader";
 import ShotPosition from "../console/ShotPosition";
 import IGameEngine from "./IGameEngine";
 import IShot from "./IShot";
+import Shot from "./Shot";
 
 class GameEngine implements IGameEngine{
     private currentPlayerId: number;
@@ -45,7 +46,7 @@ class GameEngine implements IGameEngine{
                 //console.log("cible",this.cible);
                 this.game.currentShotNumber++;
                 let shotResult =this.game.cible.getShotResult(shot);//this.cible.mapZone[zone](posFromCenter);
-                this.game.score(shotResult);
+                this.game.score(shotResult,shot);
                 this.game.showAvancement(this.getCurrentPlayerId());
                 if (this.game.mapPlayerScore[this.getCurrentPlayerId()]!==0 && this.game.currentShotNumber>this.game.maxShotNumber){
                     this.game.currentShotNumber=1;
@@ -85,7 +86,7 @@ class GameEngine implements IGameEngine{
         this.logTurn();
         while (this.game.hasStarted()){
             let shot:IShot= await this.shotReader.askShot().catch((err)=>{console.error(err); return null})//source.readline.question("Write Shot : 'zone:number posFromCenter:number'",(zone:string ,posFromCenter:string)=>{
-            //let shot:Shot = new Shot(1,2);
+            //let shot:Shot = new Shot(2,20);
             console.log("###zone",shot.getShotValue(),"pos",shot.getShotPosition());
             this.handleShot(shot);
             if(this.game.hasStarted()) this.logTurn();
