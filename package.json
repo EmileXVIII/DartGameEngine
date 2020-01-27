@@ -6,7 +6,9 @@
   "dependencies": {
     "@types/node": "^13.1.8",
     "Promise": "^1.0.5",
+    "express": "^4.17.1",
     "inquirer": "^7.0.3",
+    "jquery": "^3.4.1",
     "promise": "^8.0.3",
     "ts-node": "^8.6.2"
   },

@@ -92,5 +92,8 @@ class GameEngine implements IGameEngine{
             if(this.game.hasStarted()) this.logTurn();
         }
     }
+    setId(id:number){
+        this.status.setId(id);
+    }
 }
 export default GameEngine;

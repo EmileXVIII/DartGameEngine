@@ -1,6 +1,6 @@
-import ShotPosition from "./ShotPosition";
+import IShot from "../game/IShot";
 
 interface IShotReader{
-    askShot():Promise<ShotPosition>;
+    askShot():Promise<IShot>;
 }
 export default IShotReader;
