@@ -10,9 +10,10 @@ interface Igame extends DoIfStartedExtention{
     addPlayers(players:Player[]);
     currentShotNumber:number;
     getCurrentPlayerId():number;
+    getPlayerById(id:number):Player;
     setCurrentPlayerId(playerId:number):void;
     getMode():string;
-    getPlayertCount():number;
+    getPlayerCount():number;
     getStatus():"draft"|"ended"|"started";
     //handleShot(value:number,pos:number):void;
     //setGameEngine(gameEngine:IGameEngine):void;

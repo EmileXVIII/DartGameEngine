@@ -77,7 +77,7 @@ class GameEngine implements IGameEngine{
         "nextPlayer");
     }
     async runGame(){
-        if(this.game.getPlayertCount()===0){console.warn("Not enought Players");return "Not enought Players"}
+        if(this.game.getPlayerCount()===0){console.warn("Not enought Players");return "Not enought Players"}
         if(!(this.game.hasStarted())) {
             this.game.init();
             this.initAll();

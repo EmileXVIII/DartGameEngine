@@ -36,7 +36,10 @@ class Game extends DoIfStartedExtention implements IScorable,Igame{
         return this.mode;
     }
     getCurrentPlayerId(){return this.currentPlayerId}
-    getPlayertCount(){return this.mapPlayer.getLen()}
+    getPlayerCount(){return this.mapPlayer.getLen()}
+    getPlayerById(id:number){
+        return this.mapPlayer.getPlayer(id);
+    }
     getScore(playerId:number){
         return this.mapPlayerScore[playerId];
     }

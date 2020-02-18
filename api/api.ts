@@ -1,42 +1,24 @@
-import Game301 from "../gamemodes/Game301";
-import Status from "../utils/classes/Status";
-import GameEngine from "../game/GameEngine";
-import Shot from "../game/Shot";
-import Igame from "../game/Igame";
-import Player from "../player/Player";
+import assertNumber from "../utils/functions/assertNumber";
+import mainBis from "../mainbis";
 
 let express = require("express");
-let $ = require("axios");
-let app = express();
-let gamemodes={"301":Game301};
-let nbGames=-1;
-let listGameEngines:Array<GameEngine>=[];
-let listGames:Array<Igame>=[];
-var bodyParser = require('body-parser');
-    app.use( bodyParser.json() ); 
-    app.post("/game", function (req, res){
-        let game:Igame=new (gamemodes[req.body.mode]);
-        let idGame = ++nbGames
-        game.setId(idGame);
-        listGames.push(game);
-        let askShot = $.get(`game/${idGame}/shot`, function(data){
-            return new Shot(data.position,data.zone);
-        })
-        let gameEngine = new GameEngine(game,askShot,new Status("FirstGameEngine"+nbGames))
-        gameEngine.setId(idGame);
-        listGameEngines.push(gameEngine);
-        res.body={"id":gameEngine.getThisId()};
-        req.send();
-    });
-    app.post('game/:id/players',function (req, res){
-        for(let player of req.body.players){
-            listGames[req.params.id].addPlayer(new Player(player.name,player.email))
-        }
-        res.status="200";
+const PORT =process.env.PORT||8081
+const host="localhost:"+PORT;
+const app=express();
+app.listen(PORT, () => {
+    console.log('Serveur sur port : ', PORT)
+});
+///run?mode=301&gameId=4
+app.post("/run",(req,res,next)=>{
+    let gameId = req.query.gameId,
+    mode = req.query.mode;
+    if(assertNumber(gameId)&&mode){
+        res.statusCode=202;
         res.send();
-    });
-    app.patch('game/:id/run',function (req, res){
-        listGameEngines[req.params.id].runGame();
-        res.status="200";
-        res.send();
-    });
+        mainBis("api",gameId).catch((err)=>console.error("engine crashed"+err))
+    }
+    else{
+        res.statusCode=406;
+        res.send()
+    }
+})

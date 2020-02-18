@@ -9,8 +9,8 @@ const axiosLocal = axios.create(
         headers: {'content-type': 'application/json'},
     }
 )
-function createGame(id:number):Game{
-    let result = axiosLocal.get("/games/"+id);
+async function createGame(id:number):Promise<Game>{
+    let result = await axiosLocal.get("/games/"+id);
     let game:Game;
     if(result.status==404) throw (new Error("404 gameNotFound"));
     switch(result.data.mode){
@@ -20,11 +20,13 @@ function createGame(id:number):Game{
         default:
             throw(new Error("500 game not implemented"))
     }
+    game.setId(id)
     if(result.data.status!=="started") throw(new Error("400 game not started"))
-    result = axiosLocal.get("/games/"+id +"/players");
+    result = await axiosLocal.get("/games/"+id +"/players");
     if (result.data.length===0) throw(new Error("400 no players in game"))
     for(let apiPlayer of result.data){
         let player = new Player(apiPlayer.name,apiPlayer.email)
+        player.setBddId(+apiPlayer.id)
         game.addPlayer(player)
     }
     return game;
