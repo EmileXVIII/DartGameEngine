@@ -6,7 +6,7 @@ import Igame from "../game/Igame";
 import Player from "../player/Player";
 
 let express = require("express");
-let $ = require("jquery");
+let $ = require("axios");
 let app = express();
 let gamemodes={"301":Game301};
 let nbGames=-1;
