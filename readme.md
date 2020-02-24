@@ -7,36 +7,37 @@ L'application est séparés en 2  parties.
 
  - L'engine (git@github.com:EmileXVIII/DartGameEngine.git):
     - variables d'environnement:
-        PORT<br/>
+        PORT
     - pour démarrer :
-        ts-node /api/api.ts : pour relier avec l'api<br/>
-        ts-node /main.ts  : pour démarer en manuel
+        - ts-node /api/api.ts : pour relier avec l'api
+        - ts-node /main.ts  : pour démarer en manuel
+    - remarques les logs sont affichées dans la console de l'engine
  - L'api (git@github.com:EmileXVIII/DartGameAPI.git):
     - variables d'environnement:
-        PORTengine<br/>
-        PORT<br/>
-        URLbdd<br/>
-        BDD = perso||mongoose<br/>
+        - PORTengine
+        - PORT
+        - URLbdd
+        - BDD = perso||mongoose
     - pour démarrer :
-        ts-node /main.ts
+        - ts-node /main.ts
     - les routes:
-        GET /<br/>
-        GET /players<br/>
-        POST /players<br/>
-        GET /players/new<br/>
-        GET /players/{id}<br/>
-        GET /players/{id}/edit<br/>
-        PATCH /players/{id}<br/>
-        DELETE /players/{id}<br/>
-        GET /games<br/>
-        GET /games/new<br/>
-        POST /games<br/>
-        GET /games/{id}<br/>
-        GET /games/{id}/edit<br/>
-        PATCH /games/{id}<br/>
-        DELETE /games/{id}<br/>
-        GET /games/{id}/players<br/>
-        POST /games/{id}/players<br/>
-        DELETE /games/{id}/players<br/>
-        POST /games/{id}/shots<br/>
-        POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est started <br/>
+        - GET /
+        - GET /players
+        - POST /players
+        - GET /players/new
+        - GET /players/{id}
+        - GET /players/{id}/edit
+        - PATCH /players/{id}
+        - DELETE /players/{id}
+        - GET /games
+        - GET /games/new
+        - POST /games
+        - GET /games/{id}
+        - GET /games/{id}/edit
+        - PATCH /games/{id}
+        - DELETE /games/{id}
+        - GET /games/{id}/players
+        - POST /games/{id}/players
+        - DELETE /games/{id}/players
+        - POST /games/{id}/shots
+        - POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est "started"
