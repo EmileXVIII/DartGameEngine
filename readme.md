@@ -5,20 +5,20 @@ mode de jeu implémenté :
 
 L'application est séparés en 2  parties.
 
- - L'engine:
+ - L'engine (git@github.com:EmileXVIII/DartGameEngine.git):
     - variables d'environnement:
         PORT
     - pour démarrer :
         ts-node /api/api.ts : pour relier avec l'api
         ts-node /main.ts  : pour démarer en manuel
- - L'api :
+ - L'api (git@github.com:EmileXVIII/DartGameAPI.git):
     - variables d'environnement:
         PORTengine
         PORT
         URLbdd
         BDD = <perso||mongoose>
     - pour démarrer :
-        ts-node /main.ts
+        ts-node /API/main.ts
     - les routes:
         GET /
 GET /players
