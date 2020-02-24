@@ -7,51 +7,36 @@ L'application est séparés en 2  parties.
 
  - L'engine (git@github.com:EmileXVIII/DartGameEngine.git):
     - variables d'environnement:
-        PORT
+        PORT<br/>
     - pour démarrer :
-        ts-node /api/api.ts : pour relier avec l'api
+        ts-node /api/api.ts : pour relier avec l'api<br/>
         ts-node /main.ts  : pour démarer en manuel
  - L'api (git@github.com:EmileXVIII/DartGameAPI.git):
     - variables d'environnement:
-        PORTengine
-        PORT
-        URLbdd
-        BDD = <perso||mongoose>
+        PORTengine<br/>
+        PORT<br/>
+        URLbdd<br/>
+        BDD = perso||mongoose<br/>
     - pour démarrer :
-        ts-node /API/main.ts
+        ts-node /main.ts
     - les routes:
-        GET /
-GET /players
-POST /players
-GET /players/new
-GET /players/{id}
-GET /players/{id}/edit
-PATCH /players/{id}
-(db.js)               <-- connexion à la base
-(config.js)           <-- si vous avez de la config
-app.js                <-- Le point d'entrée du serveur Web
-(cli.js)              <-- Si votre engine API et CLI sont coLe point d'entrée
-de l'applicatif CLI (qui utilise)
-router.js             <-- ce qui gère vos routes/initialize les routeur
-(Dockerfile)
-(docker-compose.yml)
-{
-  error: {
-    type: string, // Un code erreur unique (`CAPS_CAMEL_CASE`) selon le type
-d'erreur, il peut être fournit dans la consigne
-    message: string, // Un message à destination de l'utilisateur
-  }
-}
-DELETE /players/{id}
-GET /games
-GET /games/new
-POST /games
-GET /games/{id}
-GET /games/{id}/edit
-PATCH /games/{id}
-DELETE /games/{id}
-GET /games/{id}/players
-POST /games/{id}/players
-DELETE /games/{id}/players
-POST /games/{id}/shots
-POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est <started>
+        GET /<br/>
+        GET /players<br/>
+        POST /players<br/>
+        GET /players/new<br/>
+        GET /players/{id}<br/>
+        GET /players/{id}/edit<br/>
+        PATCH /players/{id}<br/>
+        DELETE /players/{id}<br/>
+        GET /games<br/>
+        GET /games/new<br/>
+        POST /games<br/>
+        GET /games/{id}<br/>
+        GET /games/{id}/edit<br/>
+        PATCH /games/{id}<br/>
+        DELETE /games/{id}<br/>
+        GET /games/{id}/players<br/>
+        POST /games/{id}/players<br/>
+        DELETE /games/{id}/players<br/>
+        POST /games/{id}/shots<br/>
+        POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est started <br/>
