@@ -15,7 +15,7 @@ app.post("/run",(req,res,next)=>{
     if(assertNumber(gameId)&&mode){
         res.statusCode=202;
         res.send();
-        mainBis("api",gameId).catch((err)=>console.error("engine crashed"+err))
+        mainBis.mainbis("api",gameId).catch((err)=>console.error("engine crashed"+err))
     }
     else{
         res.statusCode=406;

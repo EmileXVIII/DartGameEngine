@@ -30,8 +30,10 @@ class ApiShotAsker implements IShotReader{
             let i = 0;
             let currentPlayerId=this.game.getCurrentPlayerId();
             let currentPlayer:Player=this.game.getPlayerById(+currentPlayerId)
+            axiosLocal.patch("/games/"+this.gameId,{"currentPlayerId":""+currentPlayer.bddId}).catch((err)=>console.warn(err))
             let result = await axiosLocal.post("/shots?_method=get&hasBody=1",{"gameId":""+this.gameId,"playerId":""+currentPlayer.bddId})
             let countShot:number=result.data.length;
+            //console.log(currentPlayer.bddId,JSON.stringify(result.data))
             while(countShot-i!==0&&!end){
                 let idShot:number=result.data[i].id;
                 if (idShot>this.lastId){

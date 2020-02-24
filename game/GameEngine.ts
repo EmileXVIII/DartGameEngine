@@ -6,6 +6,7 @@ import ShotPosition from "../console/ShotPosition";
 import IGameEngine from "./IGameEngine";
 import IShot from "./IShot";
 import Shot from "./Shot";
+import mainbis from "../mainbis";
 
 class GameEngine implements IGameEngine{
     private currentPlayerId: number;
@@ -23,7 +24,8 @@ class GameEngine implements IGameEngine{
     deskWinner(playerId:number){return this.game.doIfStarted(
         (()=>{
             console.log(`${this.game.mapPlayer.getPlayer(playerId).name} is the Winner`);
-            this.game.setStatus('ended'); 
+            this.game.setStatus('ended');
+            mainbis.winListener.emit("games/"+this.game.getId(),(this.game.mapPlayer.getPlayer(playerId).name))
         }
         ).bind(this),
         "deskWinner");

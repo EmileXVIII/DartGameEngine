@@ -5,7 +5,7 @@ class ConvertorAPIshot{
         let shot:Shot
         let posFromCenter:number;
         let zone:number;
-        switch(shotAPI.multiplicator){
+        switch(+shotAPI.multiplicator){
             case 2:
                 posFromCenter=4;
                 break;

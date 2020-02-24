@@ -6,6 +6,6 @@ process.env.TS_NODE_PROJECT="./tsconfig.json";
 function main(){
     let mode=process.argv[2];
     let gameAPIid=process.argv[3];
-    mainBis(mode,gameAPIid)
+    mainBis.mainbis(mode,gameAPIid)
 }
 main();

@@ -10,6 +10,15 @@ import ApiShotAsker from "./api/ApiAsker";
 import Game from "./game/Game";
 import assertNumber from "./utils/functions/assertNumber";
 import createGame from "./api/createGame";
+const MyEventListener= require('./utils/classes/MyEventListener');
+let winListener = new MyEventListener();
+const axios = require("axios")
+const axiosLocal = axios.create(
+    {
+        baseURL: 'http://localhost:8080',
+        headers: {'content-type': 'application/json','accept':'application/json'},
+    }
+)
 async function mainBis(mode,gameAPIid){
     let inquirer:IShotReader;
     let game:Igame;
@@ -29,6 +38,14 @@ async function mainBis(mode,gameAPIid){
         case('api'):
             mode='api'
             inquirer=new ApiShotAsker(game.getId(),0,game)
+            winListener.on("games/"+game.getId(),(nameWinner)=>{
+                axiosLocal.patch("games/"+game.getId(),{winBy:nameWinner})
+                axiosLocal.patch("games/"+game.getId(),{status:"ended"})
+                winListener.off("games/"+game.getId(),(nameWinner)=>{
+                    axiosLocal.patch("games/"+game.getId(),{winBy:nameWinner})
+                    axiosLocal.patch("games/"+game.getId(),{status:"ended"})
+                })
+            })
             break;
         default:
             mode='console'
@@ -39,4 +56,4 @@ async function mainBis(mode,gameAPIid){
     let gameEngine:GameEngine = new GameEngine(game,inquirer,new Status("FirstGameEngine"))
     gameEngine.runGame();
 }
-export default mainBis;
+export default {mainbis:mainBis,winListener:winListener};
