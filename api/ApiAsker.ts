@@ -40,6 +40,7 @@ class ApiShotAsker implements IShotReader{
                     this.lastId=idShot;
                     return convertAPIshot.toShot(result.data[i])
                 }
+                else i++
             }
         }
         while(!end)
