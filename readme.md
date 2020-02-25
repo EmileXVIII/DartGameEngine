@@ -1,10 +1,9 @@
-Application visant à gérer un jeu de dart Jeu de Dart :
+Application visant à gérer un Jeu de Dart :
 mode de jeu implémenté :
  - le 301
-    Chaque joueur commence avec un score initial de 301. Chacun leur tour les joueur vont lancer trois fléchettes afin de baisser leur score. A chaque fléchette, onsoustrait le score obtenu par la fléchettes du joueur à son score. Les multiplicateurs sont pris en compte dans le décompte du score. Le premier joueur qui arrive exactement à zéro a gagné. Si un joueur réalise plus de points qu'il n'en reste à soustraire, son tour n'est pas pris en compte. Attention, il faut absolument atteindre zéro en terminant par un double.
+    Chaque joueur commence avec un score initial de 301. Chacun leur tour les joueurs vont lancer trois fléchettes afin de baisser leur score. À chaque fléchette, on soustrait le score obtenu par la fléchette du joueur à son score. Les multiplicateurs sont pris en compte dans le décompte du score. Le premier joueur qui arrive exactement à zéro a gagné. Si un joueur réalise plus de points qu'il n'en reste à soustraire, son tour n'est pas pris en compte. Attention, il faut absolument atteindre zéro en terminant par un double.
 
-L'application est séparés en 2  parties.
-
+L'application est séparée en 2  parties.
  - L'engine (git@github.com:EmileXVIII/DartGameEngine.git):
     - variables d'environnement:
         PORT
@@ -40,7 +39,7 @@ L'application est séparés en 2  parties.
         - POST /games/{id}/players
         - DELETE /games/{id}/players
         - POST /games/{id}/shots
-        - POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est "started"
+        - POST /games/{id}/run : envoie le game à l'engine et le démarre si sont statut est "started"
         - GET /games/{id}/interface : renvoie une interface pour jouer plus facilement
 
 Example de jeu:
