@@ -41,10 +41,16 @@ async function mainBis(mode,gameAPIid){
             winListener.on("games/"+game.getId(),(nameWinner)=>{
                 axiosLocal.patch("games/"+game.getId(),{winBy:nameWinner})
                 axiosLocal.patch("games/"+game.getId(),{status:"ended"})
-                winListener.off("games/"+game.getId(),(nameWinner)=>{
-                    axiosLocal.patch("games/"+game.getId(),{winBy:nameWinner})
-                    axiosLocal.patch("games/"+game.getId(),{status:"ended"})
-                })
+                winListener.off("games/"+game.getId())
+                winListener.off("games/"+game.getId()+"/players")
+            })
+            winListener.on("games/"+game.getId()+"/players",(playerId,score)=>{
+                axiosLocal.post("gamePlayers?_method=get&hasBody=1",{gameId:""+game.getId(),playerId:""+playerId}).then(
+                    (res)=> {
+                        console.log(JSON.stringify(res.data))
+                        axiosLocal.patch("gamePlayers/"+res.data[0].id,{score:score});
+                    }
+                ).catch((err)=>console.log(err))
             })
             break;
         default:
