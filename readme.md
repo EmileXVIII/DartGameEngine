@@ -41,3 +41,15 @@ L'application est séparés en 2  parties.
         - DELETE /games/{id}/players
         - POST /games/{id}/shots
         - POST /games/{id}/run : envoie le game à l'engine et le démare si sont statut est "started"
+
+Example de jeu:
+- creation
+    - POST /games
+    - POST /games/{id}/players
+- lancement 
+    - POST /games/{id}/run
+- déroulement
+    - recuperer l' id du suivant player : GET /games/{id}
+    - recuperer les infos sur le player : GET /players/{id}
+    - recuperer les infos sur les scores : GET /gamePlayers
+    - tirer : POST /games/{id}/shots
