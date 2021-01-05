@@ -6,7 +6,7 @@
   "dependencies": {
     "@types/node": "^13.1.8",
     "Promise": "^1.0.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "inquirer": "^7.0.3",
     "jquery": "^3.4.1",
